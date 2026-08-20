@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -76,7 +76,7 @@ public class PlayerNetworkMover : MonoBehaviourPunCallbacks, IPunObservable {
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update() {
-        if (!photonView.IsMine) {
+        if (!photonView.IsMine && PhotonNetwork.IsConnected) {
             transform.position = Vector3.Lerp(transform.position, position, Time.deltaTime * smoothing);
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * smoothing);
         }

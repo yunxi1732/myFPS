@@ -5,30 +5,20 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class NetworkManager : MonoBehaviourPunCallbacks {
+public class NetworkManager : MonoBehaviourPunCallbacks
+{
 
-    [SerializeField]
-    private Text connectionText;
-    [SerializeField]
-    private Transform[] spawnPoints;
-    [SerializeField]
-    private Camera sceneCamera;
-    [SerializeField]
-    private GameObject[] playerModel;
-    [SerializeField]
-    private GameObject serverWindow;
-    [SerializeField]
-    private GameObject messageWindow;
-    [SerializeField]
-    private GameObject sightImage;
-    [SerializeField]
-    private InputField username;
-    [SerializeField]
-    private InputField roomName;
-    [SerializeField]
-    private InputField roomList;
-    [SerializeField]
-    private InputField messagesLog;
+    [SerializeField] private Text connectionText;
+    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Camera sceneCamera;
+    [SerializeField] private GameObject[] playerModel;
+    [SerializeField] private GameObject serverWindow;
+    [SerializeField] private GameObject messageWindow;
+    [SerializeField] private GameObject sightImage;
+    [SerializeField] private InputField username;
+    [SerializeField] private InputField roomName;
+    [SerializeField] private InputField roomList;
+    [SerializeField] private InputField messagesLog;
 
     private GameObject player;
     private Queue<string> messages;
@@ -45,14 +35,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             username.text = PlayerPrefs.GetString(nickNamePrefKey);
         }
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings(); // 使用PhotonUnityNetworking/Resources中的settings
         connectionText.text = "Connecting to lobby...";
     }
 
     /// <summary>
     /// Called on the client when you have successfully connected to a master server.
     /// </summary>
-    public override void OnConnectedToMaster() {
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("connected to master");
         PhotonNetwork.JoinLobby();
     }
 
