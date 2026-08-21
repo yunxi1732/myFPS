@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject serverWindow;
     [SerializeField] private GameObject messageWindow;
     [SerializeField] private GameObject sightImage;
-    [SerializeField] private InputField username;
+    [SerializeField] private InputField userName;
     [SerializeField] private InputField roomName;
     [SerializeField] private InputField roomList;
     [SerializeField] private InputField messagesLog;
@@ -32,7 +32,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void Start() {
         messages = new Queue<string> (messageCount);
         if (PlayerPrefs.HasKey(nickNamePrefKey)) {
-            username.text = PlayerPrefs.GetString(nickNamePrefKey);
+            userName.text = PlayerPrefs.GetString(nickNamePrefKey);
         }
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings(); // 使用PhotonUnityNetworking/Resources中的settings
@@ -79,10 +79,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     /// The button click callback function for join room.
     /// </summary>
     public void JoinRoom() {
+        if (roomName.text.Length <= 0 || userName.text.Length <= 0)
+            return;
+
         serverWindow.SetActive(false);
         connectionText.text = "Joining room...";
-        PhotonNetwork.LocalPlayer.NickName = username.text;
-        PlayerPrefs.SetString(nickNamePrefKey, username.text);
+        PhotonNetwork.LocalPlayer.NickName = userName.text;
+        PlayerPrefs.SetString(nickNamePrefKey, userName.text);
         RoomOptions roomOptions = new RoomOptions() {
             IsVisible = true,
             MaxPlayers = 8
