@@ -17,13 +17,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject sightImage;
     [SerializeField] private InputField userName;
     [SerializeField] private InputField roomName;
-    [SerializeField] private InputField roomList;
     [SerializeField] private InputField messagesLog;
 
     private GameObject player;
     private Queue<string> messages;
     private const int messageCount = 10;
     private string nickNamePrefKey = "PlayerName";
+
+    public GameObject roomNamePrefab;
+    public Transform gridLayout;
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -64,14 +66,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         connectionText.text = "";
     }
 
-    /// <summary>
-    /// Callback function on reveived room list update.
-    /// </summary>
-    /// <param name="rooms">List of RoomInfo.</param>
-    public override void OnRoomListUpdate(List<RoomInfo> rooms) {
-        roomList.text = "";
-        foreach (RoomInfo room in rooms) {
-            roomList.text += room.Name + "\n";
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (var room in roomList)
+        {
+            GameObject newRoom = Instantiate(roomNamePrefab, gridLayout.position, Quaternion.identity);
+            newRoom.GetComponentInChildren<Text>().text = room.Name;
+            newRoom.transform.SetParent(gridLayout);
         }
     }
 
