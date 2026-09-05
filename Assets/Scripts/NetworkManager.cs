@@ -70,8 +70,25 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         foreach (var room in roomList)
         {
-            GameObject newRoom = Instantiate(roomNamePrefab, gridLayout.position, Quaternion.identity);
+            GameObject newRoom = Instantiate(
+                roomNamePrefab,
+                gridLayout.position,
+                Quaternion.identity
+            );
+
+            // 设置按钮上的房间名称
             newRoom.GetComponentInChildren<Text>().text = room.Name;
+
+            // 设置按钮点击事件
+            Button button = newRoom.GetComponent<Button>();
+
+            string currentRoomName = room.Name;
+
+            button.onClick.AddListener(() =>
+            {
+                roomName.text = currentRoomName;
+            });
+
             newRoom.transform.SetParent(gridLayout);
         }
     }
